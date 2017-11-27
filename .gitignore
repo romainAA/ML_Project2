@@ -4,6 +4,9 @@ data
 ._*.py
 *.ipynb
 
+# PyCharm
+*.idea/* 
+
 #perso file
 
 *.csv
