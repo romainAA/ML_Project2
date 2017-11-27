@@ -3,7 +3,7 @@ from scipy import misc
 import os
 import cv2
 
-DATA = '../data/training/'
+DATA = 'Data/training/'
 IMAGES = DATA + 'images/'
 GT = DATA + 'groundtruth/'
 FORM = 'satImage_'
@@ -18,9 +18,9 @@ def load_data():
     for path in os.listdir(IMAGES):
         if path.startswith(FORM):
             img = misc.imread(IMAGES + path, mode='RGB')
-            imgs[count] = normalizeHist(img)
-            gt = misc.imread(GT + path) 
-            gts[count] = reshapeGT(polarize(gt))
+#            imgs[count] = normalizeHist(img)
+            gt = misc.imread(GT + path)
+#            gts[count] = reshapeGT(polarize(gt))
             count += 1
             if count > 100:
                 print('something is wrong with the images')
