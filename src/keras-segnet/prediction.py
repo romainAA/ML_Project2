@@ -80,8 +80,8 @@ input_shape = (400, 400, 3)
 nb_classes = 2 #road or background
 
 #data paths
-path = '../../Data/test_set_images/'
-model_path = 'Models/model1.hdf5'
+path = '../../data/test_set_images/'
+model_path = '../../results/keras-segnet/model3.hdf5'
 
 if __name__ == '__main__':
     model = loadModel(model_path)
