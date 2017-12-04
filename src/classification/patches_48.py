@@ -22,19 +22,19 @@ class Net(object):
         model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
 
         model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Dropout(.1))
+        model.add(Dropout(.35))
 
         model.add(Conv2D(32, kernel_size=(3, 3), activation='relu'))
 
         model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Dropout(.1))
+        model.add(Dropout(.35))
 
         model.add(Flatten())
 
         model.add(Dense(128, activation='relu'))
         model.add(Dense(64, activation='relu'))
 
-        model.add(Dropout(.1))
+        model.add(Dropout(.35))
 
         model.add(Dense(2, activation='softmax'))
 
@@ -74,8 +74,3 @@ class Net(object):
     def load(self, path=PROJECT + 'results/patches_48/tmp.hdf5'):
         self.model.load_weights(path)
         return self.model
-
-
-    def predict(self, img):
-
-
