@@ -1,8 +1,14 @@
-data
+data/
 *.DS_S*
 *pyc*
 ._*.py
 *.ipynb
+
+# Results
+results/
+
+# PyCharm
+*.idea/* 
 
 #perso file
 
