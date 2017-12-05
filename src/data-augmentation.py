@@ -48,7 +48,7 @@ def transformImage(image, grTruth):
     '''take an image and create a new one by applying a random transformation,
     then apply the same transformation to the groundtruth '''
     degreeRotation = np.random.random_integers(-45,45)
-    min_factor = 0.7
+    min_factor = 0.6
     scaling_factor = min_factor + (np.random.random_sample())*(1 - min_factor)
     trans = lambda x : scaling(rotateImage(x, degreeRotation), scaling_factor)
     newImage = trans(image)
@@ -60,7 +60,7 @@ def scaling(image, factor):
     size = nearestEven(factor*400)
     diff = (400 - size)/2
     new = image.crop((diff, diff, 400 - diff, 400 -diff))
-    new = new.resize((400, 400))
+    new = new.resize((400, 400), Image.BILINEAR)
     return new
 
 def nearestEven(i):
@@ -72,7 +72,7 @@ def rotateImage(image, angle):
     ''' make a rotation of angle (in degrees), and crop so that we don't see the borders'''
     new = image.rotate(angle)
     new = new.crop((60,60,340,340))
-    new = new.resize((400,400))
+    new = new.resize((400,400),Image.BILINEAR)
     return  new
 
 def saveImages(path, newIms, newGrTruths, factor):
