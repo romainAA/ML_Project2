@@ -5,7 +5,8 @@ import numpy as np
 from scipy import misc
 from segnet import SegNet, preprocess_input, to_categorical
 from keras.callbacks import ModelCheckpoint
-from keras.preprocessing.image import ImageDataGenerator
+from keras.preprocessing.image import ImageDataGenerator$
+from src import *
 
 
 def loadTrain(path, num, img_h, img_w):

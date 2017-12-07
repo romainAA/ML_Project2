@@ -1,6 +1,7 @@
 import numpy as np
 import os
 from PIL import Image
+import sys
 
 
 # make artificial dataset augmentation
@@ -51,10 +52,11 @@ def augmentImage(image, grTruth, factor):
 def transformImage(image, grTruth):
     '''take an image and create a new one by applying a random transformation,
     then apply the same transformation to the groundtruth '''
-    degreeRotation = np.random.random_integers(-45, 45)
+    degreeRotation = np.random.random_integers(-45,45)
+    flip = np.random.randint(0,3,1)
     min_factor = 0.75
-    scaling_factor = min_factor + (np.random.random_sample()) * (1 - min_factor)
-    trans = lambda x: scaling(rotateImage(x, degreeRotation), scaling_factor)
+    scaling_factor = min_factor + (np.random.random_sample())*(1 - min_factor)
+    trans = lambda x : scaling(flipImage(rotateImage(x, degreeRotation),flip), scaling_factor)
     newImage = trans(image)
     newGrTruth = trans(grTruth)
     return newImage, newGrTruth
@@ -81,6 +83,13 @@ def rotateImage(image, angle):
     # new = new.resize((400, 400), Image.BILINEAR)
     return new
 
+
+def flipImage(image, flip):
+    if flip == 1:
+        return image.transpose(Image.FLIP_LEFT_RIGHT)
+    elif flip == 2:
+        return image.transpose(Image.FLIP_TOP_BOTTOM)
+    return image
 
 def saveImages(path, newIms, newGrTruths, factor):
     '''save the new images in a folder'''
