@@ -61,23 +61,24 @@ def prepareInput(path, num_training, img_h, img_w, nb_classes):
 def buildModel(input_shape, nb_classes):
     ''' build a segnet model'''
     model = SegNet(input_shape=input_shape, classes=nb_classes)
-    model.compile(loss="categorical_crossentropy", optimizer='adadelta', metrics=["accuracy"])
+    # model.compile(loss="categorical_crossentropy", optimizer='adadelta', metrics=["accuracy"])
+    model.compile(loss="categorical_crossentropy", optimizer=keras.optimizers.Adadelta(lr=0.2), metrics=["accuracy"])
     return model
 
 
 def trainModel(X, Y, model, nb_epoch, validation_split=0.2, batch_size=1, save_path=""):
     ''' train the segnet model to fit the data, and save it for every epoch'''
 
-    datagen = ImageDataGenerator(
-        rotation_range=20,
-        zoom_range=0.2,
-        shear_range=0.2
-        )
+    # datagen = ImageDataGenerator(
+    #     rotation_range=20,
+    #     zoom_range=0.2,
+    #     shear_range=0.2
+    #     )
 
     save_model = ModelCheckpoint(save_path + "weights.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=0,
-                                 save_best_only=False, save_weights_only=False, mode='auto', period=1)
-    # model.fit(X, Y, callbacks=[save_model], validation_split=validation_split, batch_size=batch_size, epochs=nb_epoch)
-    model.fit_generator(datagen.flow(X, Y, batch_size=batch_size), steps_per_epoch=len(X)/batch_size, epochs=nb_epoch)
+                                 save_best_only=False, save_weights_only=False, mode='auto', period=5)
+    model.fit(X, Y, callbacks=[save_model], validation_split=validation_split, batch_size=batch_size, epochs=nb_epoch)
+    # model.fit_generator(datagen.flow(X, Y, batch_size=batch_size), steps_per_epoch=len(X)/batch_size, epochs=nb_epoch)
     return model
 
 
@@ -92,7 +93,7 @@ def saveModel(model, path):
 
 
 # parameters
-num_training = 100  # number of images
+num_training = 500  # number of images
 img_w = 400  # width in pixel of training data
 img_h = 400
 num_channels = 3  # rgb
@@ -106,14 +107,17 @@ validation_split = 0.2  # separate training and validation
 batch_size = 4  # ?
 
 # data paths
-path = '../../data/training/'  # path to the data
+path = '../../data/augmented-training/'  # path to the data
 save_path = '../../results/keras-segnet/'
-model_name = 'model3.hdf5'
+model_name_load = 'aug-model3.hdf5'
+model_name = 'aug-model4.hdf5'
 
 # prepare input, build model, train model, save model
 if __name__ == '__main__':
     X, Y = prepareInput(path, num_training, img_h, img_w, nb_classes)
     model = buildModel(input_shape, nb_classes)
+    model.load_weights(save_path + model_name_load)
+    # model = loadModel(save_path + model_name_load)
     print('model built, training...')
     trainModel(X, Y, model, nb_epoch, validation_split, batch_size, save_path)
     print('finished training')

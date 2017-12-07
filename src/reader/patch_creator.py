@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os, sys
 from PIL import Image
+import keras
 
 foreground_threshold = .25
 
@@ -17,7 +18,7 @@ def read_images(root_dir="../../data/training/"):
     image_dir = root_dir + "images/"
     files = os.listdir(image_dir)
     files = list(filter(lambda s: not s.startswith('.'), files))
-    n = min(100, len(files))  # Load maximum 100 images
+    n = len(files)
     print("Loading " + str(n) + " images")
     imgs = [mpimg.imread(image_dir + files[i]) for i in range(n)]
 
@@ -119,8 +120,8 @@ def load_from_file(load_file='../../data/patches_48/data.npz'):
 
 
 if __name__ == '__main__':
-    n, imgs, gts = read_images()
-    img_patches, gt_patches = create_patches(imgs, gts)
-    gt_labels = labelize_patches(gt_patches)
+    n, imgs, gts = read_images(root_dir="../../data/augmented-training/")
+    img_patches, gt_patches = create_patches(imgs, gts, patch_size=80)
+    gt_labels = keras.utils.to_categorical(labelize_patches(gt_patches), 2)
 
-    save_to_file(img_patches, gt_patches, gt_labels)
+    save_to_file(img_patches, gt_patches, gt_labels, save_file='../../data/patches_80/data.npz')

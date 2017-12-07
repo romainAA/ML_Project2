@@ -88,7 +88,7 @@ nb_classes = 2  # road or background
 
 # data paths
 path = '../../data/test_set_images/'
-model_path = '../../results/keras-segnet/model3.hdf5'
+model_path = '../../results/keras-segnet/aug-model3.hdf5'
 
 if __name__ == '__main__':
     model = loadModel(model_path)
