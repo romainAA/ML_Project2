@@ -5,7 +5,8 @@ import numpy as np
 from scipy import misc
 from segnet import SegNet, preprocess_input, to_categorical
 from keras.callbacks import ModelCheckpoint
-from keras.preprocessing.image import ImageDataGenerator
+from keras.preprocessing.image import ImageDataGenerator$
+from src import *
 
 
 def loadTrain(path, num, img_h, img_w):
@@ -106,8 +107,8 @@ validation_split = 0.2  # separate training and validation
 batch_size = 4  # ?
 
 # data paths
-path = '../../data/training/'  # path to the data
-save_path = '../../results/keras-segnet/'
+path = POJECT + 'data/training/'  # path to the data
+save_path = PROJECT + '/results/keras-segnet/'
 model_name = 'model3.hdf5'
 
 # prepare input, build model, train model, save model
