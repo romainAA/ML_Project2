@@ -107,8 +107,8 @@ validation_split = 0.2  # separate training and validation
 batch_size = 4  # ?
 
 # data paths
-path = POJECT + 'data/training/'  # path to the data
-save_path = PROJECT + '/results/keras-segnet/'
+path = '../../data/training/'  # path to the data
+save_path = '../../results/keras-segnet/'
 model_name = 'model3.hdf5'
 
 # prepare input, build model, train model, save model

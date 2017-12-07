@@ -1,7 +1,7 @@
 import numpy as np
 import os
 from PIL import Image
-from src import *
+import sys
 
 #make artificial dataset augmentation
 
@@ -103,8 +103,8 @@ def saveImages(path, newIms, newGrTruths, factor):
 
 
 #parameters
-trainingPath = PROJECT + '/data/training/'
-newFolder = PROJECT + '/data/augmented-training/'
+trainingPath = '../data/training/'
+newFolder = '../data/augmented-training/'
 numberOfImages = 100
 factor = 3
 seed = 57
