@@ -1,13 +1,16 @@
 from src import *
 
-from src.model.segnet import SegNet
+from src.model.improver import Improver
+from src.tools.improve import improve_test_set, submit
 
-model = SegNet(400, 400, 3)
-
-model.load_data()
+model = Improver(400, 400, 1)
 
 model.build()
 
 model.compile()
+model.load_weights('results/improver/model2.hdf5')
 
-model.train('results/segnet/model1.h5', nb_epoch=120, batch_size=4)
+# model.load_data()
+# model.train('results/improver/model2.hdf5', nb_epoch=10, batch_size=4)
+improve_test_set(model)
+submit(submission_filename='data/improve-net.csv')

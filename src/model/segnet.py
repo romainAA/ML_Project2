@@ -12,6 +12,61 @@ import os
 
 
 class SegNet(Net):
+    def build(self):
+        # c.f. https://github.com/alexgkendall/SegNet-Tutorial/blob/master/Example_Models/bayesian_segnet_camvid.prototxt
+        img_input = Input(shape=self.input_shape)
+        x = img_input
+        # Encoder
+        x = Conv2D(64, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+        x = MaxPooling2D(pool_size=(2, 2))(x)
+
+        x = Conv2D(128, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+        x = MaxPooling2D(pool_size=(2, 2))(x)
+
+        x = Conv2D(256, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+        x = MaxPooling2D(pool_size=(2, 2))(x)
+
+        x = Conv2D(512, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+
+        # Decoder
+        x = Conv2D(512, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+
+        x = UpSampling2D(size=(2, 2))(x)
+        x = Conv2D(256, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+
+        x = UpSampling2D(size=(2, 2))(x)
+        x = Conv2D(128, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+
+        x = UpSampling2D(size=(2, 2))(x)
+        x = Conv2D(64, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+
+        x = Conv2D(2, (1, 1), padding="valid")(x)
+        x = Reshape((self.input_shape[0] * self.input_shape[1], 2))(x)
+        x = Activation("softmax")(x)
+        self.model = Model(img_input, x)
+
+        self.loss = "categorical_crossentropy"
+        self.optimizer = "adadelta"
+        self.metrics = ["accuracy"]
+
+        return self.model
+
     def preprocess_input(self, X):
         return imagenet_utils.preprocess_input(X)
 
@@ -86,58 +141,3 @@ class SegNet(Net):
                 pred[row: row + patch_height, col: col + patch_width] = self.predict(input_img)
 
         return pred
-
-    def build(self):
-        # c.f. https://github.com/alexgkendall/SegNet-Tutorial/blob/master/Example_Models/bayesian_segnet_camvid.prototxt
-        img_input = Input(shape=self.input_shape)
-        x = img_input
-        # Encoder
-        x = Conv2D(64, (3, 3), padding="same")(x)
-        x = BatchNormalization()(x)
-        x = Activation("relu")(x)
-        x = MaxPooling2D(pool_size=(2, 2))(x)
-
-        x = Conv2D(128, (3, 3), padding="same")(x)
-        x = BatchNormalization()(x)
-        x = Activation("relu")(x)
-        x = MaxPooling2D(pool_size=(2, 2))(x)
-
-        x = Conv2D(256, (3, 3), padding="same")(x)
-        x = BatchNormalization()(x)
-        x = Activation("relu")(x)
-        x = MaxPooling2D(pool_size=(2, 2))(x)
-
-        x = Conv2D(512, (3, 3), padding="same")(x)
-        x = BatchNormalization()(x)
-        x = Activation("relu")(x)
-
-        # Decoder
-        x = Conv2D(512, (3, 3), padding="same")(x)
-        x = BatchNormalization()(x)
-        x = Activation("relu")(x)
-
-        x = UpSampling2D(size=(2, 2))(x)
-        x = Conv2D(256, (3, 3), padding="same")(x)
-        x = BatchNormalization()(x)
-        x = Activation("relu")(x)
-
-        x = UpSampling2D(size=(2, 2))(x)
-        x = Conv2D(128, (3, 3), padding="same")(x)
-        x = BatchNormalization()(x)
-        x = Activation("relu")(x)
-
-        x = UpSampling2D(size=(2, 2))(x)
-        x = Conv2D(64, (3, 3), padding="same")(x)
-        x = BatchNormalization()(x)
-        x = Activation("relu")(x)
-
-        x = Conv2D(2, (1, 1), padding="valid")(x)
-        x = Reshape((self.input_shape[0] * self.input_shape[1], 2))(x)
-        x = Activation("softmax")(x)
-        self.model = Model(img_input, x)
-
-        self.loss = "categorical_crossentropy"
-        self.optimizer = "adadelta"
-        self.metrics = ["accuracy"]
-
-        return self.model
