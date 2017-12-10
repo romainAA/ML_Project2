@@ -5,8 +5,9 @@ import numpy as np
 from scipy import misc
 from segnet import SegNet, preprocess_input, to_categorical
 from keras.callbacks import ModelCheckpoint
-from keras.preprocessing.image import ImageDataGenerator$
-from src import *
+
+
+# from keras.preprocessing.image import ImageDataGenerators
 
 
 def loadTrain(path, num, img_h, img_w):
@@ -62,8 +63,8 @@ def prepareInput(path, num_training, img_h, img_w, nb_classes):
 def buildModel(input_shape, nb_classes):
     ''' build a segnet model'''
     model = SegNet(input_shape=input_shape, classes=nb_classes)
-    # model.compile(loss="categorical_crossentropy", optimizer='adadelta', metrics=["accuracy"])
-    model.compile(loss="categorical_crossentropy", optimizer=keras.optimizers.Adadelta(lr=0.2), metrics=["accuracy"])
+    model.compile(loss="categorical_crossentropy", optimizer='adadelta', metrics=["accuracy"])
+    # model.compile(loss="categorical_crossentropy", optimizer=keras.optimizers.Adadelta(lr=1.0), metrics=["accuracy"])
     return model
 
 
@@ -94,7 +95,7 @@ def saveModel(model, path):
 
 
 # parameters
-num_training = 500  # number of images
+num_training = 300  # number of images
 img_w = 400  # width in pixel of training data
 img_h = 400
 num_channels = 3  # rgb
@@ -103,23 +104,25 @@ num_classes = 2  # road or background
 # param
 input_shape = (400, 400, 3)
 nb_classes = 2
-nb_epoch = 20  # number of round of training
+nb_epoch = 40  # number of round of training
 validation_split = 0.2  # separate training and validation
 batch_size = 4  # ?
 
 # data paths
 path = '../../data/augmented-training/'  # path to the data
 save_path = '../../results/keras-segnet/'
-model_name_load = 'aug-model3.hdf5'
-model_name = 'aug-model4.hdf5'
+model_name_load = 'aug-model4.hdf5'
+model_name = 'aug-model5.hdf5'
 
 # prepare input, build model, train model, save model
 if __name__ == '__main__':
+    print("Hi")
     X, Y = prepareInput(path, num_training, img_h, img_w, nb_classes)
-    model = buildModel(input_shape, nb_classes)
-    model.load_weights(save_path + model_name_load)
-    # model = loadModel(save_path + model_name_load)
-    print('model built, training...')
-    trainModel(X, Y, model, nb_epoch, validation_split, batch_size, save_path)
-    print('finished training')
-    saveModel(model, save_path + model_name)
+    print("Bye", np.mean(X[0]))
+    # model = buildModel(input_shape, nb_classes)
+    # model.load_weights(save_path + model_name_load)
+    # # model = loadModel(save_path + model_name_load)
+    # print('model built, training...')
+    # trainModel(X, Y, model, nb_epoch, validation_split, batch_size, save_path)
+    # print('finished training')
+    # saveModel(model, save_path + model_name)
