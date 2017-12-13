@@ -1,6 +1,6 @@
 import numpy as np
 from scipy import misc
-import os
+import os, os.path
 import cv2
 
 DATA = '../data/training/'
@@ -8,36 +8,64 @@ IMAGES = DATA + 'images/'
 GT = DATA + 'groundtruth/'
 FORM = 'satImage_'
 
-def load_data():
-    """ Loads the data and returns two arrays:
-    One
+def load_data(path=DATA, width=400, height=400):
+    """ Loads the data and returns a count and two arrays:
+
+    :param path, the path to where the data is contained, the folder should contain two subfolders: grountruth and images
+    :param width of the images
+    :param height of the images
+
+    :returns the number of loaded images, and the two arrays
     """
+
+    if path[-1] != '/':
+        path += '/'
+    filenames = os.listdir(path + 'images/')
+    filenames = list(filter(lambda s: not s.startswith('.'), filenames))
+
+    size = len(filenames)
+
+    imgs = np.empty([size, height, width, 3])
+    gts = np.empty([size, height, width, 1])
+
     count = 0
-    imgs = np.empty([100, 400, 400, 3])
-    gts = np.empty([100, 400*400, 2])
-    for path in os.listdir(IMAGES):
-        if path.startswith(FORM):
-            img = misc.imread(IMAGES + path, mode='RGB')
-            imgs[count] = normalizeHist(img)
-            gt = misc.imread(GT + path) 
-            gts[count] = reshapeGT(polarize(gt))
-            count += 1
-            if count > 100:
-                print('something is wrong with the images')
-                break
-    return imgs, gts
+    for filename in filenames:
+        img = misc.imread(path + 'images/' + filename, mode='RGB')
+        imgs[count] = normalize(img)
+
+        gt_name = path + 'groundtruth/' + filename
+        if os.path.exists(gt_name):
+            gt = misc.imread(gt_name)
+            gts[count] = np.reshape(polarize(normalize(gt)), [height, width, 1])
+
+        count += 1
+    return count, imgs, gts
+
+def normalize(img):
+    """ Normalize and image to the range [0., 1.]
+
+    :param img: an np array containing an image
+    :return: an np containing the normalized image
+    """
+
+    top = np.max(img)
+    bot = np.min(img)
+
+    return (img - bot) / (top - bot)
 
 def polarize(img):
     """ Polarize a ground truth image as (0., 1.).
-    Returns two channels, one for road probability, one for background.
     """
 
-    polarized = np.zeros([400, 400])
-    polarized_inv = np.ones([400,400])
-    polarized[np.where(img > 127)] = 1.
-    polarized_inv[np.where(img > 127)] = 0.
+    top = np.max(img)
+    bot = np.min(img)
 
-    return np.stack([polarized, polarized_inv], axis=-1)
+    mid = (top - bot) / 2
+
+    polarized = np.zeros(img.shape)
+    polarized[np.where(img > mid)] = 1.
+
+    return polarized
 
 def reshapeGT(polarized):
     """Reshapes the polarized GT image to a two channels vector"""
