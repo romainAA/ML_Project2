@@ -81,7 +81,7 @@ def extract_features_2d(img):
 # Extract features for a given image
 def extract_img_features(img):
     img = load_image(img)
-    patch_size = 32 # each patch is 16*16 pixels
+    patch_size = 20 # each patch is 16*16 pixels
     img_patches = img_crop(img, patch_size, patch_size)
     X = np.asarray([ extract_features_2d(img_patches[i]) for i in range(len(img_patches))])
     return X
