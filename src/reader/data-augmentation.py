@@ -111,7 +111,7 @@ def saveImages(path, newIms, newGrTruths, factor):
 trainingPath = '../../data/training/'
 newFolder = '../../data/augmented-training/'
 numberOfImages = 100
-factor = 5
+factor = 3
 seed = 57
 
 if __name__ == '__main__':

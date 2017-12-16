@@ -75,7 +75,7 @@ def savePrediction(file_name, prediction):
 
 
 # parameters
-num_test = 50
+num_test = 1
 input_w = 400  # size of the input of the model
 input_h = 400
 img_w = 608  # size of the test data
@@ -88,7 +88,7 @@ nb_classes = 2  # road or background
 
 # data paths
 path = '../../data/test_set_images/'
-model_path = '../../results/keras-segnet/aug-model3.hdf5'
+model_path = '../../results/segnet/model1.h5'
 
 if __name__ == '__main__':
     model = loadModel(model_path)
