@@ -1,6 +1,7 @@
 import matplotlib.image as mpimg
 import numpy as np
 import matplotlib.pyplot as plt
+import tools.featuresManagment as fm
 import os,sys
 from PIL import Image
 
@@ -85,6 +86,20 @@ def extract_img_features(img):
     img_patches = img_crop(img, patch_size, patch_size)
     X = np.asarray([ extract_features_2d(img_patches[i]) for i in range(len(img_patches))])
     return X
+
+def produce_XY(imgs, gts):
+    patch_size = 20
+    img_patches = [img_crop(imgs[i], patch_size, patch_size) for i in range(imgs.shape[0])]
+    gt_patches = [img_crop(gts[i], patch_size, patch_size) for i in range(imgs.shape[0])]
+
+    img_patches = np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])
+    gt_patches =  np.asarray([gt_patches[i][j] for i in range(len(gt_patches)) for j in range(len(gt_patches[i]))])
+
+    X = np.asarray([extract_features_2d(img_patches[i]) for i in range(len(img_patches))])
+    Y = np.asarray([value_to_class(np.mean(gt_patches[i])) for i in range(len(gt_patches))])
+
+    X = fm.add_neighbors(X, patch_size)
+    return X,Y
 
 # Compute features for each image patch
 foreground_threshold = 0.25 # percentage of pixels > 1 required to assign a foreground label to a patch
