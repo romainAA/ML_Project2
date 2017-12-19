@@ -36,6 +36,7 @@ def read_images(root_dir="data/training/"):
 
 
 def img_crop(im, w, h):
+    """Create patches of size w*h from an image"""
     list_patches = []
     imgwidth = im.shape[0]
     imgheight = im.shape[1]

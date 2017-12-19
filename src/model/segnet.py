@@ -12,7 +12,10 @@ import os
 
 
 class SegNet(Net):
+    """A sub class of Net that implements Segnet"""
+
     def __init__(self):
+        """Instantiates the class"""
         super().__init__()
         self.loss = "categorical_crossentropy"
         self.optimizer = "adadelta"
@@ -21,6 +24,7 @@ class SegNet(Net):
         self.log_path += 'segnet/'
 
     def build(self):
+        """Builds the model according to the segnet architecture"""
         # c.f. https://github.com/alexgkendall/SegNet-Tutorial/blob/master/Example_Models/bayesian_segnet_camvid.prototxt
         img_input = Input(shape=self.input_shape)
         x = img_input
@@ -72,9 +76,11 @@ class SegNet(Net):
         return self.model
 
     def preprocess_input(self, X):
+        """Normalize the inputs"""
         return imagenet_utils.preprocess_input(X)
 
     def to_categorical(self, y):
+        """transforms the shape of the groundtruth"""
         num_samples = len(y)
         Y = np_utils.to_categorical(y.flatten(), 2)
         return Y.reshape((num_samples, int(y.size / num_samples), 2))
@@ -86,6 +92,7 @@ class SegNet(Net):
         return image
 
     def load_data(self, path='data/augmented-training/'):
+        """Loads the training data in memory"""
         path = PROJECT + path
         img_path = path + '/images/'
         gt_path = path + '/groundtruth/'
@@ -107,6 +114,7 @@ class SegNet(Net):
         self.Y = self.to_categorical(gts)
 
     def predict(self, img):
+        """create a prediction for an image"""
         input_img = np.array(img, dtype=np.float64)
         height, width = input_img.shape[0:2]
         if height != self.input_shape[0] or width != self.input_shape[1]:
@@ -118,6 +126,7 @@ class SegNet(Net):
         return np.reshape(pred, (height, width))
 
     def predict_diff_size(self, img):
+        """Adapts the prediction to images of different size."""
         height, width = img.shape[0:2]
         patch_height, patch_width = self.input_shape[0:2]
 

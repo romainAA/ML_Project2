@@ -14,7 +14,9 @@ import os
 
 
 class Classifier(Net):
+    """A CNN that performs classsification over patches of fixed size"""
     def __init__(self, rows=48, cols=48, channels=3):
+        """Instantiates the class"""
         super().__init__(rows=rows, cols=cols, channels=channels)
         self.loss = "categorical_crossentropy"
         self.optimizer = "adadelta"
@@ -23,6 +25,7 @@ class Classifier(Net):
         self.log_path += 'classifier/'
 
     def build(self):
+        """Builds the model"""
         model = Sequential()
 
         model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=self.input_shape))
@@ -61,6 +64,7 @@ class Classifier(Net):
         return self.model
 
     def load_data(self, path='data/patches_48/data.npz'):
+        """Loads the training data in memory"""
         path = PROJECT + path
 
         imgs, gt_imgs, labels = pc.load_from_file(path)
@@ -69,6 +73,7 @@ class Classifier(Net):
         self.Y = labels
 
     def predict(self, img):
+        """Makes the prediction on one image"""
         crops = self.get_crops(img)
         preds = self.model.predict(crops)
 
@@ -84,6 +89,7 @@ class Classifier(Net):
         return pred
 
     def get_crops(self, img):
+        """Create patches on which to predict"""
         crop_size = self.input_shape[0]
         height, width = img.shape[0:2]
         padded = self.pad_image(img)
@@ -99,5 +105,6 @@ class Classifier(Net):
         return crops
 
     def pad_image(self, img, mode='reflect'):
+        """Pads the image for the learning on borders."""
         pad_size = (self.input_shape[0] - 16) // 2
         return np.lib.pad(img, ((pad_size,), (pad_size,), (0,)), mode)
