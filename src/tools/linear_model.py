@@ -7,18 +7,18 @@ from PIL import Image
 from sklearn import linear_model
 
 def evaluateModel(X,Y,model):
-    ''' Evaluate the quality of a Model
+    """ Evaluate the quality of a Model
 
     Takes a model, an input X and an output Y,
     use it to train the model with those X and Y,
     and return the percentage of correct guesses made on the training data
-    '''
+    """
     model.fit(X, Y)
     Ypr = model.predict(X)
     return 1 - sum(abs(Y-Ypr))/Y.shape[0]
 
 def print_img_from_model(model,imgs,gts):
-    ''' Use a trained model to print an image overlayed with the prediction on it.'''
+    """ Use a trained model to print an image overlayed with the prediction on it."""
     img_idx = 2
     patch_size = 20
 
@@ -35,11 +35,11 @@ def print_img_from_model(model,imgs,gts):
 
 
 def find_best_LogisticRidge(X,Y):
-    ''' Look for the optimal parameter for a logistic regression
+    """ Look for the optimal parameter for a logistic regression
 
     Evaluate the a logistic regression model with different values for the parameter \'C\'
     and print the best parameter uncountered and the result it gave
-    '''
+    """
     maxTmp = 0;
     c = 0;
     for c in range(10):
@@ -51,11 +51,11 @@ def find_best_LogisticRidge(X,Y):
     return maxTmp
 
 def find_best_BayesianRidge(X,Y):
-    ''' Look for the optimal parameters for a baysian ridge egression
+    """ Look for the optimal parameters for a baysian ridge egression
 
     Evaluate the a baysian ridge regression model with different values for all of the parameters
     and print the best parameters uncountered and the result they gave
-    '''
+    """
     maxTmp = 0;
     a1F = a2F = l1F = l2F = 0;
     for a1 in range(10):
@@ -73,11 +73,11 @@ def find_best_BayesianRidge(X,Y):
     return maxTmp
 
 def find_best_Ridge(X,Y):
-    ''' Look for the optimal parameter for a ridge regression
+    """ Look for the optimal parameter for a ridge regression
 
     Evaluate the a ridge regression model with different values for the parameter \'C\'
     and print the best parameter uncountered and the result it gave
-    '''
+    """
     maxTmp = 0;
     for a in range(10):
         correctnessR = evaluateModel(X,Y,linear_model.Ridge(alpha=10**(-1*a)))
@@ -88,7 +88,7 @@ def find_best_Ridge(X,Y):
     return maxTmp
 
 def find_best_overall():
-    ''' Use the 3 previous methods to find the best of the 3 regressions with the best parameters'''
+    """ Use the 3 previous methods to find the best of the 3 regressions with the best parameters"""
     imgs, gts = gi.load_all_images('../Data/training/')
     X,Y = gi.produce_XY(imgs, gts)
 
@@ -98,7 +98,10 @@ def find_best_overall():
 
 
 def example_linear_model():
-    ''' Train a ridge model and use it to draw the roads over an image'''
+    """ Train a ridge model and use it to draw the roads over an image"""
+    imgs, gts = gi.load_all_images('../Data/training/')
+    X,Y = gi.produce_XY(imgs, gts)
+    
     model = linear_model.Ridge(alpha=10**(-9))
     print(evaluateModel(X,Y,linear_model.Ridge(alpha=10**(-9))))
     model.fit(X, Y)
