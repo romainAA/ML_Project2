@@ -6,11 +6,14 @@ You can also access it though a python2/3 shell after importing it using `help(f
 
 ## Functionalities
 
+### Change the training and/or the testing Data
+- Go to the directory ML_Project2/Data
+- Replace the `test_set_images`and the `training`folder by your data
+
 ### Find the best linear result obtained
 - In a shell go in the directory ML_Project2/src
-- Create a new `.py`file
-- Import the package `tools.linear_model`
-- Use the different methods to obtain the best results obtained with the logistic regression, Ridge and the Baysian Ridge
+- run the command `python3 -c 'import tools.linear_model; tools.linear_model.find_best_overall()'`
+- You will obtain the best result for each regression as well as the parameters that gave the optimal result
 
 ## Methods:
 
