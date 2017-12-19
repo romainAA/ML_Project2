@@ -1,6 +1,7 @@
 import numpy as np
 import os
 from PIL import Image
+from src import *
 import sys
 
 
@@ -106,6 +107,14 @@ def saveImages(path, newIms, newGrTruths, factor):
         image.save(imPath + name)
         grTruth.save(grPath + name)
 
+def AugmentDataSet(trainingPath,newFolder,numberOfImages,factor,seed):
+    trainingPath = PROJECT + trainingPath
+    newFolder = PROJECT + newFolder
+    np.random.seed(seed)
+    imNames, grNames = getAllFileNames(trainingPath, numberOfImages)
+    images, grTruths = getAllImages(imNames, grNames)
+    newIms, newGrTruths = augmentAllImages(images, grTruths, factor)
+    saveImages(newFolder, newIms, newGrTruths, factor)
 
 # parameters
 trainingPath = '../../data/training/'
