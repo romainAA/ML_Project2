@@ -9,6 +9,15 @@ from keras.models import Model
 
 
 class Improver(Net):
+
+    def __init__(self, rows=400, cols=400, channels=1):
+        super().__init__(rows, cols, channels)
+        self.loss = "categorical_crossentropy"
+        self.optimizer = "adadelta"
+        self.metrics = ["accuracy"]
+        self.result_path += 'improver/'
+        self.log_path += 'improver/'
+
     def build(self):
         # c.f. https://github.com/alexgkendall/SegNet-Tutorial/blob/master/Example_Models/bayesian_segnet_camvid.prototxt
         img_input = Input(shape=self.input_shape)
@@ -19,6 +28,16 @@ class Improver(Net):
         x = Activation("relu")(x)
         x = MaxPooling2D(pool_size=(2, 2))(x)
 
+        x = Conv2D(32, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+        x = MaxPooling2D(pool_size=(2, 2))(x)
+
+        x = Conv2D(64, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+        x = MaxPooling2D(pool_size=(2, 2))(x)
+
         x = Conv2D(64, (3, 3), padding="same")(x)
         x = BatchNormalization()(x)
         x = Activation("relu")(x)
@@ -27,16 +46,24 @@ class Improver(Net):
         x = Conv2D(128, (3, 3), padding="same")(x)
         x = BatchNormalization()(x)
         x = Activation("relu")(x)
-        x = MaxPooling2D(pool_size=(2, 2))(x)
 
         # Decoder
-        x = UpSampling2D(size=(2, 2))(x)
         x = Conv2D(128, (3, 3), padding="same")(x)
         x = BatchNormalization()(x)
         x = Activation("relu")(x)
 
         x = UpSampling2D(size=(2, 2))(x)
         x = Conv2D(64, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+
+        x = UpSampling2D(size=(2, 2))(x)
+        x = Conv2D(64, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+
+        x = UpSampling2D(size=(2, 2))(x)
+        x = Conv2D(32, (3, 3), padding="same")(x)
         x = BatchNormalization()(x)
         x = Activation("relu")(x)
 
@@ -49,10 +76,6 @@ class Improver(Net):
         x = Reshape((self.input_shape[0] * self.input_shape[1], 2))(x)
         x = Activation("softmax")(x)
         self.model = Model(img_input, x)
-
-        self.loss = "categorical_crossentropy"
-        self.optimizer = "adadelta"
-        self.metrics = ["accuracy"]
 
         return self.model
 
@@ -68,8 +91,6 @@ class Improver(Net):
         return image
 
     def load_data(self, path='data/augmented-training/'):
-        img_h = self.input_shape[0]
-        img_w = self.input_shape[1]
         path = PROJECT + path
         img_path = path + '/preds/'
         gt_path = path + '/groundtruth/'

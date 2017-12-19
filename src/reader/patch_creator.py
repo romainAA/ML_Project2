@@ -1,20 +1,26 @@
+import os, sys
+
+if '.' not in sys.path:
+    sys.path.append('.')
+from src import *
+
 import matplotlib.image as mpimg
 import numpy as np
 import matplotlib.pyplot as plt
-import os, sys
 from PIL import Image
 import keras
 
 foreground_threshold = .25
 
 
-def read_images(root_dir="../../data/training/"):
+def read_images(root_dir="data/training/"):
     """
     Read the images
     :param root_dir: the path to the directory containing the two subdirectories images/ and groundtruth/
     :return: number of images loaded, and two lists, images and ground truth. Values are between 0 and 1
     """
 
+    root_dir = PROJECT + root_dir
     image_dir = root_dir + "images/"
     files = os.listdir(image_dir)
     files = list(filter(lambda s: not s.startswith('.'), files))
@@ -95,7 +101,7 @@ def labelize_patches(gt_patches):
     return np.asarray([labelize_patch(gt_patches[i]) for i in range(len(gt_patches))])
 
 
-def save_to_file(imgs, gts, labels, save_file='../../data/patches_48/data.npz'):
+def save_to_file(imgs, gts, labels, save_file='data/patches_48/data.npz'):
     """
     Saves the images, ground truths and their labels to a npz file
     :param imgs: array of images
@@ -108,20 +114,21 @@ def save_to_file(imgs, gts, labels, save_file='../../data/patches_48/data.npz'):
     np.savez_compressed(outfile, imgs=imgs, gt_imgs=gts, labels=labels)
 
 
-def load_from_file(load_file='../../data/patches_48/data.npz'):
+def load_from_file(load_file='data/patches_48/data.npz'):
     """ Load the images, ground truths and labels from the given file.
     File must contain the arrays with labels:
       - imgs
       - gt_imgs
       - labels"""
+
     infile = open(load_file, 'rb')
     npzfile = np.load(infile)
     return npzfile['imgs'], npzfile['gt_imgs'], npzfile['labels']
 
 
 if __name__ == '__main__':
-    n, imgs, gts = read_images(root_dir="../../data/augmented-training/")
+    n, imgs, gts = read_images(root_dir="data/augmented-training/")
     img_patches, gt_patches = create_patches(imgs, gts, patch_size=80)
     gt_labels = keras.utils.to_categorical(labelize_patches(gt_patches), 2)
 
-    save_to_file(img_patches, gt_patches, gt_labels, save_file='../../data/patches_80/data.npz')
+    save_to_file(img_patches, gt_patches, gt_labels, save_file='data/patches_80/aug-data.npz')
