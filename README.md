@@ -11,8 +11,8 @@ You can also access it though a python2/3 shell after importing it using `help(f
 - Replace the `test_set_images` and/or the `training` folder by your data
 
 ### Find the best linear result obtained
-- In a shell go in the directory ML_Project2/src
-- run the command `python3 -c 'import tools.linear_model; tools.linear_model.find_best_overall()'`
+- In a shell go in the directory ML_Project2
+- run the command `python3 -c 'import src.tools.linear_model; src.tools.linear_model.find_best_overall()'`
 - You will obtain the best result for each regression as well as the parameters that gave the optimal result
 
 ## Methods:
