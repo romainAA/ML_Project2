@@ -8,7 +8,7 @@ You can also access it though a python2/3 shell after importing it using `help(f
 
 ### Change the training and/or the testing Data
 - Go to the directory ML_Project2/Data
-- Replace the `test_set_images` and/or the `training`folder by your data
+- Replace the `test_set_images` and/or the `training` folder by your data
 
 ### Find the best linear result obtained
 - In a shell go in the directory ML_Project2/src
