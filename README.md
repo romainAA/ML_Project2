@@ -8,7 +8,7 @@ You can also access it though a python2/3 shell after importing it using `help(f
 
 ### Change the training and/or the testing Data
 - Go to the directory ML_Project2/Data
-- Replace the `test_set_images`and the `training`folder by your data
+- Replace the `test_set_images` and/or the `training`folder by your data
 
 ### Find the best linear result obtained
 - In a shell go in the directory ML_Project2/src
@@ -19,12 +19,60 @@ You can also access it though a python2/3 shell after importing it using `help(f
 
 ### Classification package
 
+#### `classify.py`:
+
+#### `patches_48.py`:
+
 ### Keras-Segnet package
+
+#### `mask_to_submission.py`:
+
+#### `prediction.py`:
+
+#### `segnet.py`:
+
+#### `train.py`:
 
 ### Model package
 
+#### `improver.py`:
+
+#### `losses.py`:
+
+#### `net.py`:
+
+#### `segnet.py`:
+
 ### Reader package
+
+#### `data-aumgentation.py`:
+
+#### `given.py`:
+
+#### `patch_creator.py`:
+
+#### `raw.py`:
+
+#### `tf_aerial_images.py`:
 
 ### Tools package
 
+#### `featuresManagment.py`:
+
+#### `improve.py`:
+
+#### `linear_model.py`:
+
+#### `mask_to_submission.py`:
+
+#### `predict.py`:
+
+#### `submission_to_mask.py`:
+
+#### `train.py`:
+
 ### Unet package
+
+#### `submit.py`:
+
+#### `unet.py`:
