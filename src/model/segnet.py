@@ -12,6 +12,14 @@ import os
 
 
 class SegNet(Net):
+    def __init__(self):
+        super().__init__()
+        self.loss = "categorical_crossentropy"
+        self.optimizer = "adadelta"
+        self.metrics = ["accuracy"]
+        self.result_path += 'segnet/'
+        self.log_path += 'segnet/'
+
     def build(self):
         # c.f. https://github.com/alexgkendall/SegNet-Tutorial/blob/master/Example_Models/bayesian_segnet_camvid.prototxt
         img_input = Input(shape=self.input_shape)
@@ -61,10 +69,6 @@ class SegNet(Net):
         x = Activation("softmax")(x)
         self.model = Model(img_input, x)
 
-        self.loss = "categorical_crossentropy"
-        self.optimizer = "adadelta"
-        self.metrics = ["accuracy"]
-
         return self.model
 
     def preprocess_input(self, X):
@@ -82,8 +86,6 @@ class SegNet(Net):
         return image
 
     def load_data(self, path='data/augmented-training/'):
-        img_h = self.input_shape[0]
-        img_w = self.input_shape[1]
         path = PROJECT + path
         img_path = path + '/images/'
         gt_path = path + '/groundtruth/'

@@ -14,6 +14,8 @@ class Net(object):
         self.metrics = []
         self.X = None
         self.Y = None
+        self.result_path = PROJECT + 'results/'
+        self.log_path = PROJECT + 'logs/'
 
     def model(self):
         return self.model
@@ -41,11 +43,12 @@ class Net(object):
         return self.model
 
     def train(self, save_path, nb_epoch=20, batch_size=1, validation_split=.1, tb_path=None):
-        save_model = ModelCheckpoint(PROJECT + save_path + "weights.{epoch:02d}-{val_loss:.2f}.hdf5",
+        save_model = ModelCheckpoint(self.result_path + save_path + "weights.{epoch:02d}-{val_loss:.2f}.hdf5",
                                      monitor='val_loss',
-                                     verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=5)
+                                     verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=10)
         callbacks = [save_model]
         if tb_path is not None:
+            tb_path = self.log_path + tb_path
             callbacks.append(TensorBoard(log_dir=tb_path, histogram_freq=0, batch_size=batch_size, write_graph=True,
                                          write_grads=False, write_images=False, embeddings_freq=0,
                                          embeddings_layer_names=None, embeddings_metadata=None))
@@ -60,14 +63,14 @@ class Net(object):
         pass
 
     def save(self, path='tmp.hdf5'):
-        path = PROJECT + path
+        path = self.result_path + path
         self.model.save(path)
 
     def load(self, path='tmp.hdf5'):
-        path = PROJECT + path
+        path = self.result_path + path
         self.model = load_model(path)
 
     def load_weights(self, path='tmp.hdf5'):
-        path = PROJECT + path
+        path = self.result_path + path
         self.model.load_weights(path)
         return self.model

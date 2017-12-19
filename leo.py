@@ -1,16 +1,27 @@
 from src import *
 
 from src.model.improver import Improver
+from src.model.segnet import SegNet
+from src.model.unet import Unet
+from src.model.classifier import Classifier
 from src.tools.improve import improve_test_set, submit
 
-model = Improver(400, 400, 1)
+from keras.optimizers import Adadelta
+
+model = SegNet()
 
 model.build()
 
-model.compile()
-model.load_weights('results/improver/model2.hdf5')
+# 1 -> 0.1 -> 0.08 -> .02 -> .5
 
-# model.load_data()
-# model.train('results/improver/model2.hdf5', nb_epoch=10, batch_size=4)
-improve_test_set(model)
-submit(submission_filename='data/improve-net.csv')
+model.optimizer = Adadelta(lr=0.5)
+model.compile()
+
+model.load_weights('mon-18-136.hdf5')
+
+model.load_data('data/augmented-training/')
+# model.load_data('data/patches_80/aug-data.npz')
+
+model.train('tue-19-178.hdf5', nb_epoch=42, batch_size=6, tb_path='tue-19/', validation_split=.01)
+
+print("DONE")

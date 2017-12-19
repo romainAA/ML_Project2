@@ -1,16 +1,25 @@
-from keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, Dropout, concatenate
+from src.model.net import Net
+from src.model.segnet import SegNet
+from src import *
+from src.tools.predict import pixel_to_class
+
+from keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, Dropout, concatenate, Reshape, Activation
 from keras.models import Model
 from keras.optimizers import Adam
 
 
-class Unet(object):
-    def __init__(self, rows=400, cols=400, channels=3):
-        self.rows = rows
-        self.cols = cols
-        self.channels = channels
+class Unet(SegNet):
+    def __init__(self):
+        Net.__init__(self)
+        # self.optimizer = Adam(lr=1e-2)
+        self.optimizer = 'adam'
+        self.loss = 'categorical_crossentropy'
+        self.metrics = ['accuracy']
+        self.result_path += 'unet/'
+        self.log_path += 'unet/'
 
     def build(self):
-        inputs = Input((self.rows, self.cols, self.channels))
+        inputs = Input((self.input_shape[0], self.input_shape[1], self.input_shape[2]))
         initializer = 'he_normal'
 
         conv1 = Conv2D(32, 3, activation='relu', padding='same', kernel_initializer=initializer)(inputs)
@@ -49,10 +58,9 @@ class Unet(object):
         conv7 = Conv2D(32, 3, activation='relu', padding='same', kernel_initializer=initializer)(conv7)
         conv7 = Conv2D(2, 3, activation='relu', padding='same', kernel_initializer=initializer)(conv7)
 
-        conv8 = Conv2D(1, 1, activation='sigmoid')(conv7)
+        conv8 = Conv2D(2, (1, 1), padding='valid')(conv7)
+        conv8 = Reshape((self.input_shape[0] * self.input_shape[1], 2))(conv8)
+        out = Activation('sigmoid')(conv8)
 
-        model = Model(input=inputs, output=conv8)
-
-        model.compile(optimizer=Adam(lr=1e-2), loss='binary_crossentropy', metrics=['accuracy'])
-
-        return model
+        self.model = Model(input=inputs, output=out)
+        return self.model

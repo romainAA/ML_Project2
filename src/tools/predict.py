@@ -21,7 +21,7 @@ def predict_test_set(model, path='data/test_set_images/'):
     print("DONE")
 
 
-def predict_train_set(model, path='data/training/'):
+def predict_train_set(model, path='data/augmented-training/'):
     path = PROJECT + path
     pred_dir = path + 'preds/'
     img_dir = path + 'images/'
@@ -33,7 +33,7 @@ def predict_train_set(model, path='data/training/'):
         lambda name: not name.startswith('.') and name.endswith('.png') and os.path.exists(gt_dir + name),
         os.listdir(img_dir)))
     for name in img_names:
-        img = misc.imread(img_dir + name)
+        img = mpimg.imread(img_dir + name)
         pred = model.predict(img)
         misc.imsave(pred_dir + name, pred)
     print("DONE")
