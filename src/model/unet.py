@@ -9,6 +9,7 @@ from keras.optimizers import Adam
 
 
 class Unet(SegNet):
+    """A subclass of Net that implements Unet"""
     def __init__(self):
         Net.__init__(self)
         # self.optimizer = Adam(lr=1e-2)
@@ -19,6 +20,7 @@ class Unet(SegNet):
         self.log_path += 'unet/'
 
     def build(self):
+        """builds the model according to the Unet architecture"""
         inputs = Input((self.input_shape[0], self.input_shape[1], self.input_shape[2]))
         initializer = 'he_normal'
 
