@@ -4,6 +4,23 @@ Using Machine Learning and Deep Learning viewed in the lectures to find road on 
 The documentation to any method can be found in the corresponding file accordingly to PEP 257.
 You can also access it though a python2/3 shell after importing it using `help(file.function)`.
 
+## Environment Dependencies:
+
+We used the libraries:
+- hdf5 : 1.10.1
+- keras : 2.1.1
+- numpy : 1.13.3
+- opencv-contrib-python : 3.3.0.10
+- pillow : 4.2.1
+- pip : 9.0.1
+- python : 3.6.3
+- scikit-image : 0.13.0
+- scikit-learn : 0.19.1
+- scipy : 0.19.1
+- tensorflow : 1.4.0
+- tensorflow-gpu : 1.4.0
+- tensorflow-tensorboard : 0.4.0rc3
+
 ## Functionalities
 
 ### Recreate the final submission results:
@@ -46,20 +63,7 @@ You can also access it though a python2/3 shell after importing it using `help(f
 - `predict.py`:
 - `submission_to_mask.py`:
 
-
-## Environment Dependencies:
-
-We used the libraries:
-- hdf5 : 1.10.1
-- keras : 2.1.1
-- numpy : 1.13.3
-- opencv-contrib-python : 3.3.0.10
-- pillow : 4.2.1
-- pip : 9.0.1
-- python : 3.6.3
-- scikit-image : 0.13.0
-- scikit-learn : 0.19.1
-- scipy : 0.19.1
-- tensorflow : 1.4.0
-- tensorflow-gpu : 1.4.0
-- tensorflow-tensorboard : 0.4.0rc3
+## Credits:
+We reused some implementations found online:
+- Segnet : https://github.com/namakemono/keras-segnet
+- Unet : 
