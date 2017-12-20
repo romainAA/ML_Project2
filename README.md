@@ -31,13 +31,13 @@ You can also access it though a python2/3 shell after importing it using `help(f
 
 ### Reader package
 - `data_aumgentation.py`:
-- `given.py`:
+- `given.py`: Contains methods given for this project
 - `patch_creator.py`:
 
 ### Tools package
-- `features_managment.py`:
+- `features_managment.py`: Contains methods to add features for the linear model
 - `improve.py`:
-- `linear_model.py`:
+- `linear_model.py`: Contains the methods used to look for the quality of the linear model
 - `predict.py`:
 
 
