@@ -2,14 +2,18 @@ import numpy as np
 
 
 def in_fun(test, central, margin):
-    if test < central + np.sqrt(margin) * 100 and test > central - np.sqrt(margin) * 100:
-        # if test < central + margin and test > central - margin:
-        # if test < central + np.sqrt(margin) and test > central - np.sqrt(margin):
+    """ Helper function to check if test is in the interval [central-margin;central+margin]"""
+    if central - np.sqrt(margin) < test < central + np.sqrt(margin):
         return True
     return False
 
 
 def add_neighbors(X, patch_size):
+    """ Add a feature to patches that compare the mean of grey of a patch with his neighbors
+
+    We consider each patch and check if any of his neighbors has the same mean of grey
+    more or less his standard deviation. 
+    """
     Xbis = np.zeros((X.shape[0], 3))
     tmp = (X.shape[0] % 100) / patch_size
     for i in range(len(X)):

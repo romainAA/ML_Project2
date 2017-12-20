@@ -9,8 +9,9 @@ from keras.models import Model
 
 
 class Improver(Net):
-
+    """A subclass of Net that implement a netork improving the results of a first model"""
     def __init__(self, rows=400, cols=400, channels=1):
+        """Instantiates the class"""
         super().__init__(rows, cols, channels)
         self.loss = "categorical_crossentropy"
         self.optimizer = "adadelta"
@@ -19,6 +20,7 @@ class Improver(Net):
         self.log_path += 'improver/'
 
     def build(self):
+        """Builds the model"""
         # c.f. https://github.com/alexgkendall/SegNet-Tutorial/blob/master/Example_Models/bayesian_segnet_camvid.prototxt
         img_input = Input(shape=self.input_shape)
         x = img_input
@@ -80,6 +82,7 @@ class Improver(Net):
         return self.model
 
     def to_categorical(self, y):
+        """Changes the shape of the groundtruth"""
         num_samples = len(y)
         Y = np_utils.to_categorical(y.flatten(), 2)
         return Y.reshape((num_samples, int(y.size / num_samples), 2))
@@ -91,6 +94,10 @@ class Improver(Net):
         return image
 
     def load_data(self, path='data/augmented-training/'):
+        """
+        Loads the training data.
+        That is : the predictions of the first model and the groundtruth.
+        """
         path = PROJECT + path
         img_path = path + '/preds/'
         gt_path = path + '/groundtruth/'
@@ -113,6 +120,9 @@ class Improver(Net):
         self.Y = self.to_categorical(gts)
 
     def predict(self, img):
+        """
+        Makes the prediction.
+        """
         input_img = np.array(img, dtype=np.float64)
         height, width = input_img.shape[0:2]
         if height != self.input_shape[0] or width != self.input_shape[1]:
@@ -123,6 +133,7 @@ class Improver(Net):
         return np.reshape(pred, (height, width))
 
     def predict_diff_size(self, img):
+        "Adapts the prediction to images of different size."
         height, width = img.shape[0:2]
         patch_height, patch_width = self.input_shape[0:2]
 

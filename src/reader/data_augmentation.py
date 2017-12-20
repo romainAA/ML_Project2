@@ -1,13 +1,14 @@
 import numpy as np
 import os
 from PIL import Image
+from src import *
 import sys
 
 
 # make artificial dataset augmentation
 
 def getAllFileNames(path, num):
-    '''just list all the dataset path'''
+    """just list all the dataset path"""
     imageNames = []
     grTruthNames = []
     for i in range(1, num + 1):
@@ -17,7 +18,7 @@ def getAllFileNames(path, num):
 
 
 def getAllImages(imageNames, grNames):
-    '''open all images as PIL Image objects'''
+    """open all images as PIL Image objects"""
     images = []
     grTruths = []
     for imageName, grName in zip(imageNames, grNames):
@@ -27,7 +28,7 @@ def getAllImages(imageNames, grNames):
 
 
 def augmentAllImages(images, grTruths, factor):
-    '''for all images, create factor - 1 new images from the original'''
+    """for all images, create factor - 1 new images from the original"""
     resIm = []
     resGr = []
     for image, grTruth in zip(images, grTruths):
@@ -38,8 +39,8 @@ def augmentAllImages(images, grTruths, factor):
 
 
 def augmentImage(image, grTruth, factor):
-    '''create factor - 1 new images from the original by random transformation,
-    apply the same transformation to the groundtruth'''
+    """create factor - 1 new images from the original by random transformation,
+    apply the same transformation to the groundtruth"""
     resIm = [image]
     resGr = [grTruth]
     for i in range(factor - 1):
@@ -50,8 +51,8 @@ def augmentImage(image, grTruth, factor):
 
 
 def transformImage(image, grTruth):
-    '''take an image and create a new one by applying a random transformation,
-    then apply the same transformation to the groundtruth '''
+    """take an image and create a new one by applying a random transformation,
+    then apply the same transformation to the groundtruth """
     degreeRotation = np.random.random_integers(-45,45)
     flip = np.random.randint(0,3,1)
     min_factor = 0.75
@@ -63,7 +64,7 @@ def transformImage(image, grTruth):
 
 
 def scaling(image, factor):
-    ''' zoom in the photo, by a factor (between 0 and 1, 1 being the same image) '''
+    """ zoom in the photo, by a factor (between 0 and 1, 1 being the same image) """
     size = nearestEven(factor * 400)
     diff = (400 - size) / 2
     new = image.crop((diff, diff, 400 - diff, 400 - diff))
@@ -72,12 +73,12 @@ def scaling(image, factor):
 
 
 def nearestEven(i):
-    ''' just to get nice numbers '''
+    """ just to get nice numbers """
     return round(i * 0.5) * 2
 
 
 def rotateImage(image, angle):
-    ''' make a rotation of angle (in degrees), and crop so that we don't see the borders'''
+    """ make a rotation of angle (in degrees), and crop so that we don't see the borders"""
     new = image.rotate(angle)
     # new = new.crop((60, 60, 340, 340))
     # new = new.resize((400, 400), Image.BILINEAR)
@@ -92,7 +93,7 @@ def flipImage(image, flip):
     return image
 
 def saveImages(path, newIms, newGrTruths, factor):
-    '''save the new images in a folder'''
+    """save the new images in a folder"""
     if not os.path.exists(path):
         os.makedirs(path)
         os.makedirs(path + 'images/')
@@ -106,6 +107,14 @@ def saveImages(path, newIms, newGrTruths, factor):
         image.save(imPath + name)
         grTruth.save(grPath + name)
 
+def AugmentDataSet(trainingPath,newFolder,numberOfImages,factor,seed):
+    trainingPath = PROJECT + trainingPath
+    newFolder = PROJECT + newFolder
+    np.random.seed(seed)
+    imNames, grNames = getAllFileNames(trainingPath, numberOfImages)
+    images, grTruths = getAllImages(imNames, grNames)
+    newIms, newGrTruths = augmentAllImages(images, grTruths, factor)
+    saveImages(newFolder, newIms, newGrTruths, factor)
 
 # parameters
 trainingPath = '../../data/training/'

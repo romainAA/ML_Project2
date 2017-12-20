@@ -6,7 +6,7 @@ import os,sys
 from PIL import Image
 
 # Helper functions
-
+"""These functions were given as helpers for the project"""
 def load_image(infilename):
     data = mpimg.imread(infilename)
     return data
