@@ -101,9 +101,9 @@ def find_best_overall():
     imgs, gts = gi.load_all_images('../Data/training/')
     X, Y = gi.produce_XY(imgs, gts)
 
-    lr = find_best_LogisticRidge(X, Y)
-    br = find_best_BayesianRidge(X, Y)
-    r = find_best_Ridge(X, Y)
+    find_best_LogisticRidge(X, Y)
+    find_best_BayesianRidge(X, Y)
+    find_best_Ridge(X, Y)
 
 
 def example_linear_model():
