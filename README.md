@@ -11,7 +11,7 @@ You can also access it though a python2/3 shell after importing it using `help(f
 - Replace the `test_set_images` and/or the `training` folder by your data
 
 ### Running Instructions:
-- In the file 'src/\__init\__.py' you need to change the variable PROJECT to your own path.
+- In the file 'src/\_\_init\_\_.py' you need to change the variable PROJECT to your own path.
 - Run the code using `python run.py`
 - We provide a pretrained model to make predictions if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in run.py
 
