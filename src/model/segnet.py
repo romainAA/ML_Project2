@@ -4,7 +4,7 @@ from src.tools.predict import pixel_to_class
 
 from keras.applications import imagenet_utils
 from keras.utils import np_utils
-from keras.layers import Input, Conv2D, BatchNormalization, Activation, MaxPooling2D, UpSampling2D, Reshape
+from keras.layers import Input, Conv2D, BatchNormalization, Activation, MaxPooling2D, UpSampling2D, Reshape, Dropout
 from keras.models import Model
 
 import glob
@@ -25,42 +25,60 @@ class SegNet(Net):
         img_input = Input(shape=self.input_shape)
         x = img_input
         # Encoder
+        x = Conv2D(32, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+        x = MaxPooling2D(pool_size=(2, 2))(x)
+        x = Dropout(.1)(x)
+
+        x = Conv2D(32, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+        x = MaxPooling2D(pool_size=(2, 2))(x)
+        x = Dropout(.1)(x)
+
         x = Conv2D(64, (3, 3), padding="same")(x)
         x = BatchNormalization()(x)
         x = Activation("relu")(x)
         x = MaxPooling2D(pool_size=(2, 2))(x)
+        x = Dropout(.1)(x)
 
         x = Conv2D(128, (3, 3), padding="same")(x)
         x = BatchNormalization()(x)
         x = Activation("relu")(x)
         x = MaxPooling2D(pool_size=(2, 2))(x)
+        x = Dropout(.1)(x)
 
-        x = Conv2D(256, (3, 3), padding="same")(x)
-        x = BatchNormalization()(x)
-        x = Activation("relu")(x)
-        x = MaxPooling2D(pool_size=(2, 2))(x)
-
-        x = Conv2D(512, (3, 3), padding="same")(x)
+        x = Conv2D(256, (5, 5), padding="same")(x)
         x = BatchNormalization()(x)
         x = Activation("relu")(x)
 
         # Decoder
-        x = Conv2D(512, (3, 3), padding="same")(x)
+        x = Conv2D(256, (5, 5), padding="same")(x)
         x = BatchNormalization()(x)
         x = Activation("relu")(x)
 
-        x = UpSampling2D(size=(2, 2))(x)
-        x = Conv2D(256, (3, 3), padding="same")(x)
-        x = BatchNormalization()(x)
-        x = Activation("relu")(x)
-
+        x = Dropout(.1)(x)
         x = UpSampling2D(size=(2, 2))(x)
         x = Conv2D(128, (3, 3), padding="same")(x)
         x = BatchNormalization()(x)
         x = Activation("relu")(x)
 
+        x = Dropout(.1)(x)
         x = UpSampling2D(size=(2, 2))(x)
         x = Conv2D(64, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+
+        x = Dropout(.1)(x)
+        x = UpSampling2D(size=(2, 2))(x)
+        x = Conv2D(32, (3, 3), padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+
+        x = Dropout(.1)(x)
+        x = UpSampling2D(size=(2, 2))(x)
+        x = Conv2D(32, (3, 3), padding="same")(x)
         x = BatchNormalization()(x)
         x = Activation("relu")(x)
 

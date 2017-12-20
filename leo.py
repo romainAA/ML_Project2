@@ -12,16 +12,16 @@ model = SegNet()
 
 model.build()
 
-# 1 -> 0.1 -> 0.08 -> .02 -> .5
+# 1 -> .5
 
-model.optimizer = Adadelta(lr=0.5)
+# model.optimizer = Adadelta(lr=.5)
 model.compile()
 
-model.load_weights('mon-18-136.hdf5')
+# model.load_weights('tue-19-168d.hdf5')
 
 model.load_data('data/augmented-training/')
 # model.load_data('data/patches_80/aug-data.npz')
 
-model.train('tue-19-178.hdf5', nb_epoch=42, batch_size=6, tb_path='tue-19/', validation_split=.01)
+model.train('wed-20-301d.hdf5', nb_epoch=301, batch_size=8, tb_path='wed-20-.15/', validation_split=0.01)
 
 print("DONE")

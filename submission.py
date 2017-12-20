@@ -12,7 +12,8 @@ model.build()
 
 model.compile()
 
-model.load_weights('tue-19-178.hdf5')
+# model.load_weights('wed-20-336d.hdf5')
+model.load_weights('wed-20-301d.hdf5')
 predict_test_set(model)
 
-submit(submission_filename='data/submission_segnet-aug-178e.csv')
+submit(submission_filename='data/submission_segnet-aug-301e-long.csv')

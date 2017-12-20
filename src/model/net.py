@@ -1,4 +1,4 @@
-from keras.callbacks import ModelCheckpoint, TensorBoard
+from keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau
 from keras.applications import imagenet_utils
 from keras.models import load_model
 
@@ -42,16 +42,16 @@ class Net(object):
 
         return self.model
 
-    def train(self, save_path, nb_epoch=20, batch_size=1, validation_split=.1, tb_path=None):
-        save_model = ModelCheckpoint(self.result_path + save_path + "weights.{epoch:02d}-{val_loss:.2f}.hdf5",
-                                     monitor='val_loss',
+    def train(self, save_path, nb_epoch=20, batch_size=1, validation_split=.1, tb_path='tmp/'):
+        save_model = ModelCheckpoint(self.result_path + save_path + "weights.{epoch:02d}-{loss:.2f}.hdf5",
+                                     monitor='loss',
                                      verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=10)
-        callbacks = [save_model]
-        if tb_path is not None:
-            tb_path = self.log_path + tb_path
-            callbacks.append(TensorBoard(log_dir=tb_path, histogram_freq=0, batch_size=batch_size, write_graph=True,
-                                         write_grads=False, write_images=False, embeddings_freq=0,
-                                         embeddings_layer_names=None, embeddings_metadata=None))
+        reduce_lr = ReduceLROnPlateau(monitor='loss', mode='min')
+        tb_path = self.log_path + tb_path
+        tensor_board = TensorBoard(log_dir=tb_path, histogram_freq=0, batch_size=batch_size, write_graph=True,
+                                   write_grads=False, write_images=False, embeddings_freq=0,
+                                   embeddings_layer_names=None, embeddings_metadata=None)
+        callbacks = [save_model, reduce_lr, tensor_board]
 
         self.model.fit(self.X, self.Y, callbacks=callbacks, batch_size=batch_size, validation_split=validation_split,
                        epochs=nb_epoch)
