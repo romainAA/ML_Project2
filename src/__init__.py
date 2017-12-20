@@ -1,4 +1,4 @@
-PROJECT = '/home/marin/Documents/Studies/EPFL_MA1/ML/ML_Project2
+PROJECT = '/home/marin/Documents/Studies/EPFL_MA1/ML/ML_Project2/
 import numpy as np
 from scipy import misc
 import matplotlib.pyplot as plt
