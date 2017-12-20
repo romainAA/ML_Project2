@@ -44,6 +44,7 @@ def find_best_LogisticRidge(X, Y):
     and print the best parameter uncountered and the result it gave
     """
     max_tmp = 0
+    cF = 0
     for c in range(10):
         correctnessLr = evaluateModel(X, Y, linear_model.LogisticRegression(C=100.8 + (10 ** (-2)) * c,
                                                                             class_weight="balanced"))
@@ -87,6 +88,7 @@ def find_best_Ridge(X, Y):
     and print the best parameter uncountered and the result it gave
     """
     max_tmp = 0
+    a1F = 0
     for a in range(10):
         correctnessR = evaluateModel(X, Y, linear_model.Ridge(alpha=10 ** (-1 * a)))
         if correctnessR > max_tmp:
