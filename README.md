@@ -6,16 +6,16 @@ You can also access it though a python2/3 shell after importing it using `help(f
 
 ## Functionalities
 
-### Change the training and/or the testing Data
+### Recreate the final submission results:
+- In the file 'src/\_\_init\_\_.py', change the variable PROJECT to your own path.
+- Run the code using `python run.py`
+- We provide a pretrained model to make predictions if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in `run.py`
+
+### Change the training and/or the testing Data:
 - Go to the directory ML_Project2/Data
 - Replace the `test_set_images` and/or the `training` folder by your data
 
-### Running Instructions:
-- In the file 'src/\_\_init\_\_.py' you need to change the variable PROJECT to your own path.
-- Run the code using `python run.py`
-- We provide a pretrained model to make predictions if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in run.py
-
-### Find the best linear result obtained
+### Find the best linear result obtained:
 - In a shell go in the directory ML_Project2
 - Run the command `python3 -c 'import src.tools.linear_model; src.tools.linear_model.find_best_overall()'`
 - You will obtain the best result for each regression as well as the parameters that gave the optimal result printed in the command line
@@ -37,8 +37,6 @@ You can also access it though a python2/3 shell after importing it using `help(f
 - `data_aumgentation.py`:
 - `given.py`:
 - `patch_creator.py`:
-- `raw.py`:
-- `tf_aerial_images.py`:
 
 ### Tools package
 - `features_managment.py`:
