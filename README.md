@@ -22,10 +22,6 @@ You can also access it though a python2/3 shell after importing it using `help(f
 
 ## Packages and files:
 
-### Classification package
-- `classify.py`:
-- `patches_48.py`:
-
 ### Model package
 - `classifier.py`:
 - `improver.py`:
@@ -42,9 +38,7 @@ You can also access it though a python2/3 shell after importing it using `help(f
 - `features_managment.py`:
 - `improve.py`:
 - `linear_model.py`:
-- `mask_to_submission.py`:
 - `predict.py`:
-- `submission_to_mask.py`:
 
 
 ## Environment Dependencies:
