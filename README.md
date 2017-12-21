@@ -21,6 +21,18 @@ We used the libraries:
 - tensorflow-gpu : 1.4.0
 - tensorflow-tensorboard : 0.4.0rc3
 
+##Where to put the images:
+- All the data should be in the folder $PROJECT/data/
+
+### Training Data
+- Training data should be in the folder $PROJECT/data/training/
+- Plain images goes in $PROJECT/data/training/images/
+- Groundtruth images goes in $PROJECT/data/training/groundtruth/
+
+### Test Data
+- All Test data should be in $PROJECT/data/test_set_images/
+- Test image i should be in $PROJECT/data/test_set_images/test_i/
+
 ## Functionalities
 
 ### Recreate the final submission results:
@@ -29,7 +41,7 @@ We used the libraries:
 - We provide a pretrained model to make predictions, if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in `run.py`.
 
 ### Change the training and/or the testing Data:
-- Go to the directory ML_Project2/Data
+- Go to the directory ML_Project2/data
 - Replace the `test_set_images` and/or the `training` folder by your data
 
 ### Find the best linear result obtained:
