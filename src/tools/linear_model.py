@@ -1,5 +1,5 @@
 import src.reader.given as gi
-import src.tools.featuresManagment as fm
+import src.tools.features_managment as fm
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -37,13 +37,14 @@ def print_img_from_model(model, imgs, gts):
     plt.show()
 
 
-def find_best_LogisticRidge(X, Y):
+def find_best_LogisticRegression(X, Y):
     """ Look for the optimal parameter for a logistic regression
 
     Evaluate the a logistic regression model with different values for the parameter \'C\'
     and print the best parameter uncountered and the result it gave
     """
     max_tmp = 0
+    cF = 0
     for c in range(10):
         correctnessLr = evaluateModel(X, Y, linear_model.LogisticRegression(C=100.8 + (10 ** (-2)) * c,
                                                                             class_weight="balanced"))
@@ -87,6 +88,7 @@ def find_best_Ridge(X, Y):
     and print the best parameter uncountered and the result it gave
     """
     max_tmp = 0
+    a1F = 0
     for a in range(10):
         correctnessR = evaluateModel(X, Y, linear_model.Ridge(alpha=10 ** (-1 * a)))
         if correctnessR > max_tmp:
@@ -98,17 +100,17 @@ def find_best_Ridge(X, Y):
 
 def find_best_overall():
     """ Use the 3 previous methods to find the best of the 3 regressions with the best parameters"""
-    imgs, gts = gi.load_all_images('../Data/training/')
+    imgs, gts = gi.load_all_images('Data/training/')
     X, Y = gi.produce_XY(imgs, gts)
 
-    lr = find_best_LogisticRidge(X, Y)
-    br = find_best_BayesianRidge(X, Y)
-    r = find_best_Ridge(X, Y)
+    find_best_LogisticRegression(X, Y)
+    find_best_BayesianRidge(X, Y)
+    find_best_Ridge(X, Y)
 
 
 def example_linear_model():
     """ Train a ridge model and use it to draw the roads over an image"""
-    imgs, gts = gi.load_all_images('../Data/training/')
+    imgs, gts = gi.load_all_images('Data/training/')
     X, Y = gi.produce_XY(imgs, gts)
 
     model = linear_model.Ridge(alpha=10 ** (-9))
