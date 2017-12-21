@@ -1,7 +1,7 @@
 import matplotlib.image as mpimg
 import numpy as np
 import matplotlib.pyplot as plt
-import src.tools.featuresManagment as fm
+import src.tools.features_managment as fm
 import os,sys
 from PIL import Image
 
