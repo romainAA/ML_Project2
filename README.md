@@ -31,22 +31,19 @@ We used the libraries:
 
 ### Test Data
 - All Test data should be in $PROJECT/data/test_set_images/
-- Test image i should be in $PROJECT/data/test_set_images/test_i/
+- Test image i should be in $PROJECT/data/test_set_images/test_${i}/
 
 ## Functionalities
 
 ### Recreate the final submission results:
 - In the file 'src/\_\_init\_\_.py', change the variable PROJECT to your own path.
 - Run the code using `python run.py`
-- We provide a pretrained model to make predictions, if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in `run.py`.
-
-### Change the training and/or the testing Data:
-- Go to the directory ML_Project2/data
-- Replace the `test_set_images` and/or the `training` folder by your data
+- We provide a pre-trained model to make predictions, if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in `run.py`.
+*Please note that it took us 2 hours and a half to train on a GPU, a GPU of 6 GB memory was able to handle batches of size 8, you might need to change the batch size even lower than 4 depending on your GPU* 
 
 ### Find the best linear result obtained:
 - In a shell go in the directory ML_Project2
-- Run the command `python3 -c 'import src.tools.linear_model; src.tools.linear_model.find_best_overall()'`
+- Run the command `python -c 'import src.tools.linear_model; src.tools.linear_model.find_best_overall()'`
 - You will obtain the best result for each regression as well as the parameters that gave the optimal result printed in the command line
 
 ## Packages and files:
@@ -54,8 +51,8 @@ We used the libraries:
 ### Model package
 - `net.py`: An abstract class to make the code modular
 - `classifier.py`: A CNN-model that performs classification on patches of the image
-- `improver.py`: A model that tries to correct the
 - `segnet.py`: A model inspired of the segnet architecture, that make segmentation on the whole image
+- `improver.py`: A model that tries to correct the output of classifier using a similar technique to segnet
 - `unet.py`: A model inspired of the unet architecture
 
 ### Reader package
@@ -70,6 +67,6 @@ We used the libraries:
 - `predict.py`: Helpers functions to create submissions.
 
 ## Credits:
-We reused some implementations found online:
+We got inspired by some implementations found online:
 - Segnet : https://github.com/namakemono/keras-segnet
-- Unet :
+- Unet : https://github.com/zhixuhao/unet
