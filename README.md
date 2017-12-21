@@ -21,7 +21,7 @@ We used the libraries:
 - tensorflow-gpu : 1.4.0
 - tensorflow-tensorboard : 0.4.0rc3
 
-##Where to put the images:
+## Where to put the images:
 - All the data should be in the folder $PROJECT/data/
 
 ### Training Data
