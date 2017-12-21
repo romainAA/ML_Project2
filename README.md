@@ -40,11 +40,11 @@ We used the libraries:
 ## Packages and files:
 
 ### Model package
-- `classifier.py`:
-- `improver.py`:
-- `net.py`:
-- `segnet.py`:
-- `unet.py`:
+- `net.py`: An abstract class to make the code modular
+- `classifier.py`: A CNN-model that performs classification on patches of the image
+- `improver.py`: A model that tries to correct the
+- `segnet.py`: A model inspired of the segnet architecture, that make segmentation on the whole image
+- `unet.py`: A model inspired of the unet architecture 
 
 ### Reader package
 - `data_aumgentation.py`:
@@ -60,4 +60,4 @@ We used the libraries:
 ## Credits:
 We reused some implementations found online:
 - Segnet : https://github.com/namakemono/keras-segnet
-- Unet : 
+- Unet :
