@@ -9,7 +9,7 @@ You can also access it though a python2/3 shell after importing it using `help(f
 ### Recreate the final submission results:
 - In the file 'src/\_\_init\_\_.py', change the variable PROJECT to your own path.
 - Run the code using `python run.py`
-- We provide a pretrained model to make predictions if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in `run.py`
+- We provide a pretrained model to make predictions, if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in `run.py`.
 
 ### Change the training and/or the testing Data:
 - Go to the directory ML_Project2/Data
