@@ -16,7 +16,7 @@ def predict_test_set(model, path='data/test_set_images/'):
         image_path = folder_path + 'test_' + str(i) + '.png'
         img = misc.imread(image_path)
         pred = model.predict(img)
-        pred_path = folder_path + 'pred_' + str(i) + '-d2.png'
+        pred_path = folder_path + 'pred_' + str(i) + '.png'
         misc.imsave(pred_path, pred)
     print("DONE")
 
@@ -44,7 +44,7 @@ def submit(submission_filename='data/dummy_submission.csv', pred_path='data/test
     image_filenames = []
     pred_path = PROJECT + pred_path
     for i in range(1, 51):
-        image_filename = pred_path + 'test_' + str(i) + '/pred_' + str(i) + '-d2.png'
+        image_filename = pred_path + 'test_' + str(i) + '/pred_' + str(i) + '.png'
         image_filenames.append(image_filename)
     masks_to_submission(submission_filename, *image_filenames)
     print("DONE")
