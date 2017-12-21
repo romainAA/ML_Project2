@@ -38,8 +38,9 @@ We used the libraries:
 ### Recreate the final submission results:
 - In the file 'src/\_\_init\_\_.py', change the variable PROJECT to your own path.
 - Run the code using `python run.py`
+*Making the prediction on our dataset (using a pretrained model) takes us 5 min on an intel i7 with 8Go of RAM*
 - We provide a pre-trained model to make predictions, if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in `run.py`.
-*Please note that it took us 2 hours and a half to train on a GPU, a GPU of 6 GB memory was able to handle batches of size 8, you might need to change the batch size even lower than 4 depending on your GPU* 
+*Please note that it took us 2 hours and a half to train on a GPU, a GPU of 6 GB memory was able to handle batches of size 8, you might need to change the batch size even lower than 4 depending on your GPU*
 
 ### Find the best linear result obtained:
 - In a shell go in the directory ML_Project2
