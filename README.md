@@ -44,18 +44,18 @@ We used the libraries:
 - `classifier.py`: A CNN-model that performs classification on patches of the image
 - `improver.py`: A model that tries to correct the
 - `segnet.py`: A model inspired of the segnet architecture, that make segmentation on the whole image
-- `unet.py`: A model inspired of the unet architecture 
+- `unet.py`: A model inspired of the unet architecture
 
 ### Reader package
-- `data_aumgentation.py`:
+- `data_aumgentation.py`: takes the training set and artificially augments it using random transformations.
 - `given.py`: Contains methods given for this project
-- `patch_creator.py`:
+- `patch_creator.py`: Takes the image and divides it in patches of fixed size.
 
 ### Tools package
 - `features_managment.py`: Contains methods to add features for the linear model
-- `improve.py`:
+- `improve.py`: Helpers functions to create submissions for the improver.
 - `linear_model.py`: Contains the methods used to look for the quality of the linear model
-- `predict.py`:
+- `predict.py`: Helpers functions to create submissions.
 
 ## Credits:
 We reused some implementations found online:
