@@ -41,7 +41,7 @@ We used the libraries:
 - We provide a pretrained model to make predictions, if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in `run.py`.
 
 ### Change the training and/or the testing Data:
-- Go to the directory ML_Project2/data
+- Go to the directory ML_Project2/data/
 - Replace the `test_set_images` and/or the `training` folder by your data
 
 ### Find the best linear result obtained:
