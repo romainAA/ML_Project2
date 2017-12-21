@@ -26,7 +26,7 @@ We used the libraries:
 ### Recreate the final submission results:
 - In the file 'src/\_\_init\_\_.py', change the variable PROJECT to your own path.
 - Run the code using `python run.py`
-- We provide a pretrained model to make predictions if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in `run.py`
+- We provide a pretrained model to make predictions, if you want to train a new model you can set the variable USE_PRETRAINED_MODEL to False in `run.py`.
 
 ### Change the training and/or the testing Data:
 - Go to the directory ML_Project2/Data
@@ -39,10 +39,6 @@ We used the libraries:
 
 ## Packages and files:
 
-### Classification package
-- `classify.py`:
-- `patches_48.py`:
-
 ### Model package
 - `classifier.py`:
 - `improver.py`:
@@ -52,16 +48,14 @@ We used the libraries:
 
 ### Reader package
 - `data_aumgentation.py`:
-- `given.py`:
+- `given.py`: Contains methods given for this project
 - `patch_creator.py`:
 
 ### Tools package
-- `features_managment.py`:
+- `features_managment.py`: Contains methods to add features for the linear model
 - `improve.py`:
-- `linear_model.py`:
-- `mask_to_submission.py`:
+- `linear_model.py`: Contains the methods used to look for the quality of the linear model
 - `predict.py`:
-- `submission_to_mask.py`:
 
 ## Credits:
 We reused some implementations found online:
