@@ -25,7 +25,7 @@ def print_img_from_model(model, imgs, gts):
     img_idx = 2
     patch_size = 20
 
-    Xi = gi.extract_img_features('../Data/test_set_images/test_' + str(img_idx) + '/test_' + str(img_idx) + 'b.png')
+    Xi = gi.extract_img_features('../data/test_set_images/test_' + str(img_idx) + '/test_' + str(img_idx) + 'b.png')
     Xi = fm.add_neighbors(Xi, patch_size)
     Zi = model.predict(Xi)
 
@@ -100,7 +100,7 @@ def find_best_Ridge(X, Y):
 
 def find_best_overall():
     """ Use the 3 previous methods to find the best of the 3 regressions with the best parameters"""
-    imgs, gts = gi.load_all_images('Data/training/')
+    imgs, gts = gi.load_all_images('data/training/')
     X, Y = gi.produce_XY(imgs, gts)
 
     find_best_LogisticRegression(X, Y)
@@ -110,7 +110,7 @@ def find_best_overall():
 
 def example_linear_model():
     """ Train a ridge model and use it to draw the roads over an image"""
-    imgs, gts = gi.load_all_images('Data/training/')
+    imgs, gts = gi.load_all_images('data/training/')
     X, Y = gi.produce_XY(imgs, gts)
 
     model = linear_model.Ridge(alpha=10 ** (-9))
